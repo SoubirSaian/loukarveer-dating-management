@@ -35,9 +35,18 @@ const UserSchema = new Schema<IUser>({
     //     }
             
     // },
-    firstMeet:[{
+    firstMeet:{
         type: Date,
-        // default: null
+        default: Date.now
+    },
+    nextMeet:{
+        type: Date,
+        default: Date.now
+    },
+    importantDays: [{
+        label: {type: String, default: ''},
+        image: {type: String, default: ''},
+        date: {type: Date, default: Date.now},
     }],
     
     city:{

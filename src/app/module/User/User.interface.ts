@@ -9,6 +9,8 @@ export interface IUser {
   city: string;
   image: string;
   firstMeet: Date;
+  nextMeet: Date;
+  importantDays: Object[];
   isLongDistance: boolean;
   subscription: {
         isSubscribed: boolean;
@@ -28,6 +30,8 @@ export interface IChangePassword {
     confirmPassword: string;
 }
 
-// export interface IUserRole {
-
-// }
+export type TaddDate = {
+    label: string;
+    image: string;
+    date: Date;
+}

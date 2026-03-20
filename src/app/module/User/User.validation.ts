@@ -7,13 +7,22 @@ export const updateprofileValidation = z.object({
     }),
 });
 
-export const addLocationValidation = z.object({
+export const addImportantDaysValidation = z.object({
     body: z.object({
-        // role: z.string().min(1, "Role is required"),
-        location: z.string().min(1, "Location is required"),
-        // userId: z.string().min(1, "userId is required"),
+        label: z.string().min(1, "Location is required"),
+        role: z.string().min(1, "Role is required"),
+        date: z.coerce.date({message: "Date is required"}),
         // latitude: z.string().min(1, "Latitude is required"),
         // longitude: z.string().min(1, "Longitude is required"),
+    }),
+});
+
+export const addNextMeetValidation = z.object({
+    body: z.object({
+        // label: z.string().min(1, "Location is required"),
+        // role: z.string().min(1, "Role is required"),
+        date: z.coerce.date({message: "Date is required"}),
+       
     }),
 });
 
@@ -42,5 +51,11 @@ const changePasswordValidation = z.object({
       ),
 });
 
-const UserValidations = { updateprofileValidation,addLocationValidation, addBankDetailValidation, changePasswordValidation };
+const UserValidations = { 
+    updateprofileValidation,
+    addImportantDaysValidation, 
+    addNextMeetValidation,
+    addBankDetailValidation, 
+    changePasswordValidation 
+};
 export default UserValidations;

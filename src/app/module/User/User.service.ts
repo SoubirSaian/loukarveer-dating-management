@@ -1,6 +1,6 @@
 import ApiError from "../../../error/ApiError";
 import { Express } from "express";
-import {  IChangePassword, IUser } from "./User.interface";
+import {  IChangePassword, IUser, TaddDate } from "./User.interface";
 import UserModel from "./User.model";
 import { JwtPayload } from "jsonwebtoken";
 import deleteOldFile from "../../../utilities/deleteFile";
@@ -50,71 +50,71 @@ const updateUserProfile = async (userDetails: IJwtPayload,file: Express.Multer.F
 };
 
 
-// const addLocationService = async (userDetails: JwtPayload,payload: IAddLocation) => {
-//     // Service logic goes here
-//     const {profileId,role} = userDetails;
-//    const {location} = payload;
+const getMyProfile = async (userDetails: JwtPayload) => {
 
-//     let profile : ICustomer| ISupplier | null = null;
+    const {profileId} = userDetails;
+    
+    const user = await UserModel.findById(profileId);
 
-//     switch (role) {
+    if(!user){
+        throw new ApiError(404,"failed to get profile detail.");
+    }
 
-//         case ENUM_USER_ROLE.CUSTOMER:
-//              profile = await CustomerModel.findByIdAndUpdate(profileId, {location: location}, {new: true});
-//             break;
+    return user;
+    
+}
 
-//         case ENUM_USER_ROLE.SUPPLIER:
-//             profile = await SupplierModel.findByIdAndUpdate(profileId, {location: location}, {new: true});
-//             break;
-             
-//         default:{
-//             // const _exhaustiveCheck: never = role;
-//             throw new ApiError(400, "Invalid user role");
-//         }
+const addImportantDayService = async (userDetails: JwtPayload,payload: TaddDate) => {
 
-//     }
+    const {profileId} = userDetails;
+    
+    const user = await UserModel.findById(profileId);
 
-//     if(!profile){
-//         throw new ApiError(500,'Failed to add location in the profile');
-//     }  
+    if (!user) {
+        throw new Error("User not found to add important days.");
+    }
 
-//     return { name:profile.name,email:profile.email, location: profile.location };
-// }
+    user.importantDays.push(payload);
+
+    await user.save();
+
+    return user.importantDays;
+
+    // const userId = "USER_ID";
+
+    // const newImportantDay = {
+    // label: "Anniversary",
+    // image: "anniversary.png",
+    // date: new Date("2026-06-15")
+    // };
+
+    // const updatedUser = await UserModel.findByIdAndUpdate(
+    // userId,
+    // {
+    //     $push: { importantDays: newImportantDay }
+    // },
+    // { new: true }
+    // );
+}
 
 
-// const addBankDetailService = async (userDetails: JwtPayload,payload: IBankDetail) => {
-//     // Service logic goes here
-//     const {profileId,role} = userDetails;
-//   // console.log(payload);
+const addNextMeetService = async (userDetails: JwtPayload,payload: {date: Date}) => {
+    // Service logic goes here
+    const {profileId} = userDetails;
 
-//     let profile : ICustomer| ISupplier | null = null;
+    const user = await UserModel.findById(profileId);
 
-//     switch (role) {
-//         case ENUM_USER_ROLE.CUSTOMER:
-//              profile = await CustomerModel.findByIdAndUpdate(profileId,{
-//               $set: payload
-//              } , {new: true});
-//             break;
+    if (!user) {
+        throw new Error("User not found to add next meet date.");
+    }
 
-//         case ENUM_USER_ROLE.SUPPLIER:
-//             profile = await SupplierModel.findByIdAndUpdate(profileId, {
-//               $set: payload
-//             }, {new: true});
-//             break;
-             
-//         default:{
-//             // const _exhaustiveCheck: never = role;
-//             throw new ApiError(400, "Invalid user role");
-//         }
+    user.nextMeet = payload.date;
 
-//     }
-//     // console.log(profile);
-//     if(!profile){
-//         throw new ApiError(500,'Failed to add location in the profile');
-//     }  
+    await user.save();
 
-//     return { name:profile.name,email:profile.email, location: profile.location };
-// }
+    return user.nextMeet;
+  
+}
 
 const changePasswordService = async (userDetails: IJwtPayload, payload: IChangePassword) => {
     // Service logic goes here
@@ -174,8 +174,9 @@ const blockUserService = async (userId: string) => {
 
 const UserServices = {
     updateUserProfile, 
-    // addLocationService,
-    // addBankDetailService,
+    getMyProfile,
+    addImportantDayService,
+    addNextMeetService,
     changePasswordService ,
 
     getAllUserService,

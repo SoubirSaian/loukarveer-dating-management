@@ -2,13 +2,19 @@ import { Types } from "mongoose";
 
 export interface INotification {
     toId : Types.ObjectId;
+    toModel: string;
     title :string;
-    // details: string;  
+    description: string;  
+    type: string;
+    referenceId?: Types.ObjectId;
+    referenceModel?: string;
+    isSeen: boolean;
 }
 
 export interface IAdminNotification {
     title :string;
     // details: string;  
+    isSeen: boolean;
 }
 
 export type INotificationPayload = {

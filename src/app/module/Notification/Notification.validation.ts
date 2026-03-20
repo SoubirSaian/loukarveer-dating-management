@@ -9,4 +9,5 @@ export const updateNotificationData = z.object({
 });
 
 const NotificationValidations = { updateNotificationData };
+
 export default NotificationValidations;
