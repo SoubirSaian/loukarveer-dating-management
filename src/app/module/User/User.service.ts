@@ -6,6 +6,7 @@ import { JwtPayload } from "jsonwebtoken";
 import deleteOldFile from "../../../utilities/deleteFile";
 import { IJwtPayload } from "../../../interface/jwt.interface";
 import { email } from "zod";
+import AuthModel from "../auth/auth.model";
 
 
 
@@ -48,7 +49,6 @@ const updateUserProfile = async (userDetails: IJwtPayload,file: Express.Multer.F
       email: user.email,
   };
 };
-
 
 const getMyProfile = async (userDetails: JwtPayload) => {
 
@@ -140,34 +140,87 @@ const changePasswordService = async (userDetails: IJwtPayload, payload: IChangeP
     return null;
 }
 
+//add desire mood
+const addDesireMood = async (userDetails:IJwtPayload,payload:{imoji: string,mood: string}) => {
+
+    const {profileId} = userDetails;
+
+    const profile = await UserModel.findByIdAndUpdate(profileId,{
+        desireMood: payload
+    });
+
+    if(!profile?.desireMood?.mood){
+        throw new ApiError(500,"Failed to add desire mood.");
+    }
+
+    return profile.desireMood;
+}
+
 
 //dashboard
 
-const getAllUserService = async () => {
-    const users = await UserModel.find({}).lean();
-    return users;
-}
+const getAllUserService = async (query: Record<string,unknown>) => {
 
-const blockUserService = async (userId: string) => {
-    
-    if(!userId){
-        throw new ApiError(400,"User id is required to block a user");
+    let {page, searchText} = query;
+
+    //if searchText is true
+    if(searchText){
+        const users = await UserModel.find({
+             $or: [
+                    { name: { $regex: searchText, $options: "i" } },
+                    { email: { $regex: searchText, $options: "i" } },
+                ]
+        }) .populate({path: "auth", select:"isBlocked"}).lean();
+
+        return users;
+
     }
 
-    const user = await UserModel.findById(userId);
+    //pagination
+    page = parseInt(page as any) || 1;
+    let limit = 10;
+    let skip = (page as number - 1) * limit;
 
-    if(!user){
+
+    const [users, totalUser] = await Promise.all([
+
+        UserModel.find({})
+            .populate({path: "auth", select:"isBlocked"})
+                .sort({createdAt: -1})
+                    .skip(skip).limit(limit)
+                        .lean(),
+    
+        UserModel.countDocuments({})
+    ])
+
+    const totalPage = Math.ceil(totalUser / limit);
+
+    return {
+        meta:{page,limit: 10,total: totalUser, totalPage},
+        users
+    };
+}
+
+const blockUserService = async (id: string) => {
+    
+    // if(!authId){
+    //     throw new ApiError(400,"User id is required to block a user");
+    // }
+
+    const auth = await AuthModel.findById(id);
+
+    if(!auth){
         throw new ApiError(404,"User not found to block.");
     }
 
-    user.isBlocked = !user.isBlocked;
+    auth.isBlocked = !auth.isBlocked;
 
-    let msg = user.isBlocked ? "User has been blocked successfully." : "User has been unblocked successfully.";
+    let msg = auth.isBlocked ? "User has been blocked." : "User has been unblocked.";
 
-    await user.save();
+    await auth.save();
 
     return {
-        user: { name: user.name, email: user.email, isBlocked: user.isBlocked },
+        user: { name: auth.name, email: auth.email, isBlocked: auth.isBlocked },
         msg
     };
 }
@@ -178,7 +231,7 @@ const UserServices = {
     addImportantDayService,
     addNextMeetService,
     changePasswordService ,
-
+    addDesireMood,
     getAllUserService,
     blockUserService
 };

@@ -5,6 +5,8 @@ import { IUser } from "./User.interface";
 
 const UserSchema = new Schema<IUser>({
     auth: { type: Schema.Types.ObjectId, ref: "Auth" },
+    couple: { type: Schema.Types.ObjectId, ref: "Couple", default: null },
+    partner: { type: Schema.Types.ObjectId, ref: "User", default: null },
     name: {
         type: String,
         default: '',
@@ -19,22 +21,13 @@ const UserSchema = new Schema<IUser>({
     //     default: ''
     // },
     image: {
-            type: String,
-            default: ''
-        },
-    // location: {
-    //     type: {
-    //         type: String,
-    //         enum: ["Point"],
-    //         default: "Point"
-    //     },
-    //     coordinates: {
-    //         type: [Number], // [longitude, latitude]
-    //         // required: true
-    //         default: [0, 0]
-    //     }
-            
-    // },
+        type: String,
+        default: ''
+    },
+    desireMood: {
+        imoji: {type: String, default: ''},
+        mood: {type: String, default: ''},
+    },
     firstMeet:{
         type: Date,
         default: Date.now
@@ -58,6 +51,10 @@ const UserSchema = new Schema<IUser>({
     //     default: ''
     // },
     isLongDistance: {
+        type: Boolean,
+        default: false
+    },
+    isConnected: {
         type: Boolean,
         default: false
     },

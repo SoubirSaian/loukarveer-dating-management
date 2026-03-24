@@ -4,7 +4,7 @@ import {auth, authorizeUser} from "../../middlewares/auth";
 import { adminLoginValidation, changeAdminPasswordValidation, createAdminvalidation, editProfilevalidation } from "./Dashboard.validation";
 import DashboardController from "./Dashboard.controller";
 import AuthValidations from "../auth/auth.validation";
-import { uploadProfile } from "../../../helper/multerUpload";
+import { uploadProfile } from "../../middlewares/multerMiddleware";
 
 
 

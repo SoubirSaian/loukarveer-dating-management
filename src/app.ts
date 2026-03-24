@@ -25,7 +25,7 @@ app.use('/', allRouter);
 
 
 app.get('/', (req, res) => {
-  res.send("Petrol padi server is running ---- Welcome --- Go Ahead");
+  res.send("Loukarver server is running ---- Welcome --- Go Ahead");
 });
 
 

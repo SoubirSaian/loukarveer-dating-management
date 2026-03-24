@@ -1,5 +1,5 @@
 import { NotificationModel } from "../app/module/Notification/Notification.model";
-// import { getIO } from "../socket/socket.connection";
+import { getIO } from "../socket/socket.connection";
 import { ENUM_NOTIFICATION_TYPE } from "../utilities/enum";
 
 
@@ -21,10 +21,10 @@ class NotificationService {
         const notification = await NotificationModel.create(payload);
 
         // Emit real-time event
-        // const io = getIO();
+        const io = getIO();
 
         // 🔥 Emit to specific user room
-        // io.to(payload.toId).emit("new-notification", notification);
+        io.to(payload.toId).emit("new-notification", notification);
 
 
         return notification;

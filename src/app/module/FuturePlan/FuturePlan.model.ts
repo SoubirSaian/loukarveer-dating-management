@@ -3,6 +3,7 @@ import { IFuturePlan } from "./FuturePlan.interface";
 
 const FuturePlanSchema = new Schema<IFuturePlan>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    couple: { type: Schema.Types.ObjectId, required: true, ref: "Couple" },
     label: { type: String, required: true },
     description: { type: String, required: true },
     steps: [

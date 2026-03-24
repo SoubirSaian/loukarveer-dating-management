@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 
 export interface IFuturePlan {
     user: Types.ObjectId;
+    couple: Types.ObjectId;
     label: string;
     description: string;
     steps: Object[]

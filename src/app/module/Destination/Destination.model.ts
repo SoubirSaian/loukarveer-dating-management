@@ -4,6 +4,7 @@ import { ENUM_DESTINATION_STATUS } from "../../../utilities/enum";
 
 const DestinationSchema = new Schema<IDestination>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    couple: { type: Schema.Types.ObjectId, required: true, ref: "Couple" },
     city: { type: String, required: true },
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },

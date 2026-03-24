@@ -99,10 +99,21 @@ const markStepAsCompletedService = async (query: Record<string,unknown>) => {
     // ]);
 }
 
+const getMyPlanService = async (query: Record<string,unknown>) => {
+
+    const {coupleId} = query;
+
+    const plans = await FuturePlanModel.find({couple: coupleId}).sort({createdAt: -1}).lean();
+
+    return plans;
+}
+
+
 const FuturePlanServices = { 
     addFuturePlanService,
     addnewStepsToPlanService,
-    markStepAsCompletedService
+    markStepAsCompletedService,
+    getMyPlanService
  };
 
 export default FuturePlanServices;

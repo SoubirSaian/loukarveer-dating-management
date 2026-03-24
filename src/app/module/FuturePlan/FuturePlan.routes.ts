@@ -25,6 +25,12 @@ FuturePlanRouter.post("/mark-step-completed",
     FuturePlanController.markStepCompleted
 );
 
+FuturePlanRouter.get("/get-my-plans",
+    authorizeUser,
+    // validateRequest(FuturePlanValidations.addNewFuturePlanValication),
+    FuturePlanController.getAllPlan
+);
+
 
 
 export default FuturePlanRouter;

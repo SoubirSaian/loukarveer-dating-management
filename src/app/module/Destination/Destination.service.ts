@@ -20,21 +20,26 @@ const addDestinationService = async (userDetails:IJwtPayload,payload: Partial<ID
 const getMyDestinationService = async (userDetails:IJwtPayload, query: Record<string,unknown>) => {
 
     const {profileId} = userDetails;
-    const {status} = query;
+
+    const {coupleId,status} = query;
 
     let filter: any = {
-        user: profileId
+        couple: coupleId
     };
 
     if(status) filter.status = status;
 
-    const myDestination = await DestinationModel.find(filter).lean();
+    const myDestination = await DestinationModel.find(filter).sort({createdAt: -1}).lean();
 
     return myDestination;
 
 }
 
-const addPhotoService = async (userDetails:IJwtPayload, files: Express.Multer.File[],id: string) => {
+const addPhotoService = async (
+    userDetails:IJwtPayload, 
+    files: Express.Multer.File[],
+    id: string
+) => {
 
     // const {profileId} = userDetails;
     let newImages: string[] = [];
@@ -42,7 +47,7 @@ const addPhotoService = async (userDetails:IJwtPayload, files: Express.Multer.Fi
     const destination = await DestinationModel.findById(id);
 
     if (files){
-         newImages =files?.map((file) => `uploads/destination-image/${file.filename}`);
+         newImages = files?.map((file) => `uploads/destination-image/${file.filename}`);
 
          destination.photos = newImages;
 

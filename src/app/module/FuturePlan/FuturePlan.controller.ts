@@ -41,10 +41,25 @@ const markStepCompleted = catchAsync(async (req, res) => {
     });
 });
 
+const getAllPlan = catchAsync(async (req, res) => {
+
+     const { user } = req as AuthRequest;
+
+    const result = await FuturePlanServices.getMyPlanService(user);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Retrieved all plan.",
+        data: result,
+    });
+});
+
 const FuturePlanController = { 
     addNewFuturePlan,
     addNewStep,
-    markStepCompleted
+    markStepCompleted,
+    getAllPlan
  };
 
 export default FuturePlanController;

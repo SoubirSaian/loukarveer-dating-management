@@ -1,22 +1,27 @@
 import { Types } from "mongoose";
 
 export interface IUser {
-    
-  
   auth: Types.ObjectId;
+  couple?: Types.ObjectId;
+  partner?: Types.ObjectId;
   email: string;
   name: string;
   city: string;
   image: string;
+  desireMood?: {
+    imoji: string;
+    mood: string
+  };
   firstMeet: Date;
   nextMeet: Date;
   importantDays: Object[];
   isLongDistance: boolean;
+  isConnected: boolean;
   subscription: {
-        isSubscribed: boolean;
-        subscribedAt: Date;
-        expiredAt: Date;
-    };
+    isSubscribed: boolean;
+    subscribedAt: Date;
+    expiredAt: Date;
+  };
 
 }
 

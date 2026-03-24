@@ -19,6 +19,49 @@ const updateProfile = catchAsync(async (req, res) => {
     });
 });
 
+const getMyProfile = catchAsync(async (req, res) => {
+
+     const { user } = req as AuthRequest;
+
+    const result = await UserServices.getMyProfile(user);
+    
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Profile detail retrieved.",
+        data: result,
+    });
+});
+
+const addImportantDate = catchAsync(async (req, res) => {
+
+     const { user } = req as AuthRequest;
+
+    const result = await UserServices.addImportantDayService(user , req.body);
+    
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Important date added",
+        data: result,
+    });
+});
+
+const addNextMeet = catchAsync(async (req, res) => {
+
+     const { user } = req as AuthRequest;
+
+    const result = await UserServices.addNextMeetService(user , req.body);
+    
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Added next meet date.",
+        data: result,
+    });
+});
+
+
 const changePassword = catchAsync(async (req, res) => {
 
      const { user } = req as AuthRequest;
@@ -61,6 +104,9 @@ const blockUser = catchAsync(async (req, res) => {
 
 const UserController = { 
     updateProfile,
+    getMyProfile,
+    addImportantDate,
+    addNextMeet,
     changePassword,
     dashboardGetUser,
     blockUser

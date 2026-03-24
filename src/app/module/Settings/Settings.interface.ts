@@ -14,4 +14,5 @@ export interface IHelpAndSupport {
     phone: string;
     email: string;
     description: string;
+    status?: string;
 }

@@ -5,6 +5,23 @@ export const ENUM_DESTINATION_STATUS = {
     BUCKET_lIST: "BUCKET_LIST",
 }
 
+export const ENUM_COUPLE_STATUS = {
+    PENDING: "Pending",
+    ACCEPTED: "Accepted",
+    REJECTED: "Rejected",
+    BROKE_UP: "Broke_up"
+}
+
+export const ENUM_ACTIVITY_STATUS = {
+    DONE: "Done",
+    IN_PROGRESS: "In Progress",
+}
+
+export const ENUM_SPARK_STATUS = {
+    ROMANTIC: "Romantic",
+    DESIRE: "Desire",
+}
+
 export const ENUM_NOTIFICATION_TYPE = {
     NEW_ORDER : "NEW_ORDER",
     ORDER_ACCEPTED : "ORDER_ACCEPTED",

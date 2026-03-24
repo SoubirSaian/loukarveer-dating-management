@@ -10,7 +10,7 @@ export const updateprofileValidation = z.object({
 export const addImportantDaysValidation = z.object({
     body: z.object({
         label: z.string().min(1, "Location is required"),
-        role: z.string().min(1, "Role is required"),
+        image: z.string().min(1, "Role is required"),
         date: z.coerce.date({message: "Date is required"}),
         // latitude: z.string().min(1, "Latitude is required"),
         // longitude: z.string().min(1, "Longitude is required"),
@@ -26,11 +26,10 @@ export const addNextMeetValidation = z.object({
     }),
 });
 
-export const addBankDetailValidation = z.object({
+export const addDesireMood = z.object({
     body: z.object({
-        bankName: z.string().min(1, "Bank name is required"),
-        accountName: z.string().min(1, "Account name is required"),
-        accountNumber: z.string().min(1, "Account number is required"),
+        imoji: z.string().min(1, "Imoji is required"),
+        mood: z.string().min(1, "Mood is required"),
     }),
 });
 
@@ -55,7 +54,7 @@ const UserValidations = {
     updateprofileValidation,
     addImportantDaysValidation, 
     addNextMeetValidation,
-    addBankDetailValidation, 
+    addDesireMood, 
     changePasswordValidation 
 };
 export default UserValidations;
