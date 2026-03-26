@@ -22,6 +22,12 @@ export const ENUM_SPARK_STATUS = {
     DESIRE: "Desire",
 }
 
+export const ENUM_DATE_STATUS = {
+    PROPOSED: "Proposed",
+    ACCEPTED: "Accepted",
+    COMPLETED: "Completed",
+}
+
 export const ENUM_NOTIFICATION_TYPE = {
     NEW_ORDER : "NEW_ORDER",
     ORDER_ACCEPTED : "ORDER_ACCEPTED",

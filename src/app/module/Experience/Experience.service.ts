@@ -1,4 +1,5 @@
 import ApiError from "../../../error/ApiError";
+import { deleteDisappearedFile } from "../../../helper/tempFile";
 import { IJwtPayload } from "../../../interface/jwt.interface";
 import { ENUM_ACTIVITY_STATUS } from "../../../utilities/enum";
 import CoupleModel from "../Couple/Couple.model";
@@ -6,13 +7,13 @@ import { IActivity, ICheckIn, IMemory, ISpark, ITempFile } from "./Experience.in
 import {ActivityModel, CheckInModel, MemoryModel, SparkModel, TempFileModel} from "./Experience.model";
 
 //memory
-const addMemoryService = async (userDetails: IJwtPayload,payload: {content: string}) => {
+const addMemoryService = async (userDetails: IJwtPayload,payload: {couple: string,content: string}) => {
 
     const {profileId} = userDetails;
 
     const newMemory = await MemoryModel.create({
         user: profileId,
-        content: payload.content
+        ...payload
     });
 
     if(!newMemory){
@@ -179,6 +180,30 @@ const getTemporaryFile = async (userDetails: IJwtPayload) => {
 
 } 
 
+//auto disapper file
+const disappearTemporaryFile = async (query: Record<string,unknown>) => {
+
+    const {tempFileId, viewTimer} = query;
+
+    const EXPIRY_SECONDS: any = viewTimer; // or 30
+
+    const message = await TempFileModel.findById(tempFileId);
+
+    if (!message.isSeen) {
+        message.isSeen = true;
+        message.seenAt = new Date();
+
+        message.expireAt = new Date(Date.now() +  EXPIRY_SECONDS * 1000);
+
+        await message.save();
+    }
+
+    deleteDisappearedFile(tempFileId, EXPIRY_SECONDS + 10);
+
+    return null;
+
+} 
+
 
 
 
@@ -231,6 +256,7 @@ const ExperienceServices = {
     getMyPromptService,
     getAllPromptService,
     sendTemporaryFile,
+    disappearTemporaryFile,
     getTemporaryFile,
     addCheckInService,
     getPartnerCheckInService,

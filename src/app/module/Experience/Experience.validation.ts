@@ -3,6 +3,7 @@ import { z } from "zod";
         
 const addMemoryValidation = z.object({
     body: z.object({
+        couple: z.string().min(24,"Couple Id is required."),
         content: z.string().min(1,"Memory content is required."),
        
     }),
@@ -11,8 +12,8 @@ const addMemoryValidation = z.object({
 const addCheckInValidation = z.object({
     body: z.object({
         feeling: z.string().min(1,"Check In feeling is required."),
-        mood: z.string().min(1,"Check In mood is required."),
-        mine: z.string().min(1,"Check In mine is required."),
+        need: z.string().min(1,"Check In mood is required."),
+        thinking: z.string().min(1,"Check In mine is required."),
        
     }),
 });

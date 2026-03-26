@@ -2,12 +2,32 @@ import { Types } from "mongoose";
 
 export interface IDate {
     user: Types.ObjectId;
-    name: string;
-    username?: string;
-    phone?: string;
-    email: string;
-    address?: string;
-    profile_image?: string;
-    totalAmount?: number;
-    totalPoint?: number;
+    couple?: Types.ObjectId;
+    city?: string;
+    title: string;
+    mood: string;
+    vibe: string;
+    time: string;
+    budget?: string;
+    venues?: string[];
+    timeline?: string[];
+    status?: string;
+    rating: number;
 }
+
+export interface IDatingPayload {
+    city: string;
+    mood: string;
+    vibe: string;
+    timeOfDay: string;
+    startTime: string;
+    budget?: string;
+}
+
+/*
+city name: Dhaka
+current mood state: Romantic
+current vibe: Foodie
+time of the day: Morning
+start time: 10:00 AM
+*/

@@ -4,12 +4,13 @@ export interface ICheckIn {
     user: Types.ObjectId;
     feeling: string;
     need: string;
-    mine: string;
+    thinking: string;
     createdAt: Date;
 }
 
 export interface IMemory {
     user: Types.ObjectId;
+    couple: Types.ObjectId;
     content: string;
     createdAt: Date;
 }
@@ -28,6 +29,9 @@ export interface ITempFile {
     partner: Types.ObjectId;
     file: string;
     viewTimer: number;
+    isSeen: boolean,
+    seenAt: Date,
+    expireAt: Date,
     createdAt: Date;
 }
 

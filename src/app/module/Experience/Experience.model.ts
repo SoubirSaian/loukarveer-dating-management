@@ -5,6 +5,7 @@ import { ENUM_ACTIVITY_STATUS, ENUM_SPARK_STATUS } from "../../../utilities/enum
 //memory model
 const MemorySchema = new Schema<IMemory>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    couple: { type: Schema.Types.ObjectId, required: true, ref: "Couple" },
     content: { type: String, required: true },
     createdAt: {type: Date, default: Date.now}
 });
@@ -14,7 +15,7 @@ const CheckInSchema = new Schema<ICheckIn>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     feeling: { type: String, required: true },
     need: { type: String, required: true },
-    mine: { type: String, required: true },
+    thinking: { type: String, required: true },
     createdAt: {type: Date, default: Date.now}
 });
 
@@ -38,6 +39,20 @@ const disappearContentSchema = new Schema<ITempFile>({
     partner: { type: Schema.Types.ObjectId, ref: "User", default: null },
     file: { type: String, required: true },
     viewTimer: { type: Number, default: 10 },
+    isSeen: {
+        type: Boolean,
+        default: false
+    },
+
+    seenAt: {
+        type: Date,
+        default: null
+    },
+
+    expireAt: {
+        type: Date,
+        default: null
+    },
     createdAt: {type: Date, default: Date.now}
 });
 
