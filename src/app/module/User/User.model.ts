@@ -60,6 +60,8 @@ const UserSchema = new Schema<IUser>({
     },
     subscription: {
         isSubscribed: { type: Boolean, default: false },
+        subscriptionId: { type: Schema.Types.ObjectId, ref: "SubscriptionPlan", default: null },
+        subscriptionName: { type: String, default: '' },
         subscribedAt: { type: Date, default: null },
         expiredAt: { type: Date, default: null }
     },

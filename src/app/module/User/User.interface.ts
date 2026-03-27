@@ -19,6 +19,8 @@ export interface IUser {
   isConnected: boolean;
   subscription: {
     isSubscribed: boolean;
+    subscrptionId: Types.ObjectId;
+    subscrptionName: string;
     subscribedAt: Date;
     expiredAt: Date;
   };
