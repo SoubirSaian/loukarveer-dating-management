@@ -42,11 +42,11 @@ export const generateSuggestionService = async (
     return saved;
 };
 
-const editDateService = async (query: Record<string,unknown>,payload:{venues?: string[], timeline?: string[]}) => {
-    const {dateId} = query;
+const editDateService = async (id: string,payload:{venues?: string[], timeline?: string[]}) => {
+    // const {dateId} = query;
     const {venues,timeline} = payload;
 
-    const date = await DateModel.findByIdAndUpdate(dateId,{
+    const date = await DateModel.findByIdAndUpdate(id,{
         venues: venues, 
         timeline: timeline
     },{new: true});
@@ -59,11 +59,11 @@ const editDateService = async (query: Record<string,unknown>,payload:{venues?: s
 };
 
 
-const getAllDateProposal = async (id: string) => {
+const getAllDateProposal = async (query:Record<string,unknown>) => {
 
-    // const {dateId} = query;
+    const {coupleId} = query;
 
-    const allDate = await DateModel.find({couple: id}).lean();
+    const allDate = await DateModel.find({couple: coupleId}).lean();
 
     // if(date.status !== ENUM_DATE_STATUS.ACCEPTED){
     //     throw new ApiError(500,"Failed to accept date proposal.");
@@ -136,7 +136,10 @@ const provideRating = async (query: Record<string,unknown>) => {
 const DateServices = { 
     generateSuggestionService,
     editDateService,
+    getAllDateProposal,
+    getSingleDateProposal,
     acceptDateProposal,
+    deleteDateProposal,
     provideRating
  };
 

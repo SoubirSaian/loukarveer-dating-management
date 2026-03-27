@@ -24,10 +24,11 @@ const sendConnectionRequest = async (userDetails: IJwtPayload,payload:{receiverI
 
 };
 
-const acceptConnectionRequest = async (payload: {coupleId: string}) => {
+const acceptConnectionRequest = async (query:Record<string,unknown>) => {
     //add mongoose transaction id
+    const {coupleId} = query;
 
-    const couple = await CoupleModel.findById(payload.coupleId);
+    const couple = await CoupleModel.findById(coupleId);
 
     //update both partners
     const [sender,receiver] = await Promise.all([
@@ -55,9 +56,11 @@ const acceptConnectionRequest = async (payload: {coupleId: string}) => {
 
 };
 
-const rejectConnectionRequest = async (payload: {coupleId: string}) => {
+const rejectConnectionRequest = async (query:Record<string,unknown>) => {
 
-    const couple = await CoupleModel.findById(payload.coupleId);
+     const {coupleId} = query;
+
+    const couple = await CoupleModel.findById(coupleId);
 
     // const [sender,receiver] = await Promise.all([
     //     UserModel.findByIdAndUpdate(couple.users[0],{isConnected: true},{new: true}),
@@ -76,9 +79,11 @@ const rejectConnectionRequest = async (payload: {coupleId: string}) => {
 
 };
 
-const unlinkConnection = async (payload: {coupleId: string}) => {
+const unlinkConnection = async (query:Record<string,unknown>) => {
 
-    const couple = await CoupleModel.findById(payload.coupleId);
+     const {coupleId} = query;
+
+    const couple = await CoupleModel.findById(coupleId);
 
     const [sender,receiver] = await Promise.all([
         UserModel.findByIdAndUpdate(couple.users[0],{couple: null,partner: null,isConnected: false},{new: true}),

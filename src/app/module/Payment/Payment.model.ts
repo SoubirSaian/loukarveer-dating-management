@@ -1,17 +1,28 @@
 import { model, Schema, models } from "mongoose";
-import { IPayment } from "./Payment.interface";
+import { IPayment, ISubscriptionPlan } from "./Payment.interface";
+
+const SubscriptionSchema = new Schema<ISubscriptionPlan>({
+    title: { type: String, required: true },
+    price: { type: Number, required: true },
+    features: [{ type: String, required: true }],
+    createdAt: { type: Date, default: Date.now }
+});
 
 const PaymentSchema = new Schema<IPayment>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    name: { type: String, required: true },
-    phone: { type: String },
-    email: { type: String, required: true, unique: true },
-    address: { type: String },
-    profile_image: { type: String, default: "" },
-    totalAmount: { type: Number, default: 0 },
-    totalPoint: { type: Number, default: 0 }
-}, { timestamps: true });
+    couple: { type: Schema.Types.ObjectId, ref: "Couple", default: null },
+    subscription: {
+        id: {type: Schema.Types.ObjectId, ref: "SubscriptionPlan", required: true},
+        planName: {type: String, required: true},
+        planPrice: {type: Number, required: true},
+        startDate: {type: Date, required: true},
+        expireDate: {type: Date, required: true},
+    },
+    paymentId: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
 
-const PaymentModel = models.Payment || model<IPayment>("Payment", PaymentSchema);
+export const SubscriptionPlanModel = models.SubscriptionPlan || model<ISubscriptionPlan>("SubscriptionPlan", SubscriptionSchema);
 
-export default PaymentModel;
+export const PaymentModel = models.Payment || model<IPayment>("Payment", PaymentSchema);
+

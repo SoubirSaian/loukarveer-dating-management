@@ -36,6 +36,7 @@ const getmyMemoryService = async (userDetails: IJwtPayload) => {
 
 };
 
+
 //activity
 
 const addSharedActivityService = async (userDetails: IJwtPayload,payload: Partial<IActivity>) => {
